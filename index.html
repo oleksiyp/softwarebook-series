@@ -73,8 +73,7 @@
   .eyebrow { margin: 0 0 12px; font: 700 0.78rem/1.2 var(--mono); letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-ink); }
   h1 { margin: 0; font-size: clamp(2rem, 4.6vw, 3.6rem); line-height: 1.08; font-weight: 700; letter-spacing: -0.015em; text-wrap: balance; }
   .lede { max-width: 44rem; margin: 18px auto 0; font-size: clamp(1rem, 1.5vw, 1.18rem); color: var(--muted); text-wrap: pretty; }
-  .meta { margin: 18px 0 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 18px; font: 0.8rem/1.4 var(--mono); letter-spacing: 0.04em; color: var(--muted); }
-  .meta b { color: var(--ink); font-weight: 700; }
+  .meta { margin: 14px 0 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 22px; font-size: 0.95rem; color: var(--muted); }
   .live { display: inline-flex; align-items: center; gap: 7px; }
   .live::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #2fb36b; box-shadow: 0 0 0 3px rgba(47, 179, 107, 0.2); }
 
@@ -107,12 +106,8 @@
 
   .cap { margin-top: 10px; text-align: center; max-width: 300px; }
   .num { font: 700 0.72rem/1.3 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-ink); }
-  .title { margin: 6px 0 2px; font-size: clamp(1rem, 1.25vw, 1.2rem); line-height: 1.25; font-weight: 700; text-wrap: balance; }
-  .sub { margin: 0; font-size: 0.92rem; color: var(--muted); }
-  .asks { margin: 12px 0 0; font-size: 0.9rem; line-height: 1.5; color: var(--muted); text-wrap: pretty; }
-  .facts { margin: 10px 0 0; font: 0.72rem/1.4 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
-  .read { display: inline-block; margin-top: 12px; font-weight: 700; font-size: 0.92rem; color: var(--accent-ink); }
-  .book > a:hover .read { text-decoration: underline; text-underline-offset: 3px; }
+  .title { margin: 6px 0 2px; font-size: clamp(1.05rem, 1.45vw, 1.35rem); line-height: 1.25; font-weight: 700; text-wrap: balance; }
+  .sub { margin: 0; font-size: 1rem; color: var(--muted); }
 
   /* ---- the thread through the books ---- */
   .thread { margin: clamp(48px, 9vh, 96px) auto 0; max-width: 46rem; text-align: center; }
@@ -129,20 +124,13 @@
     .books { display: flex; flex-wrap: wrap; justify-content: center; row-gap: 40px; }
     .book { flex: 0 1 calc((100% - 2 * clamp(16px, 2.6vw, 44px)) / 3); max-width: 260px; }
   }
-  /* Phones: a list, each cover beside what the book is about */
+  /* Phones: two books to a row, still standing */
   @media (max-width: 620px) {
     .wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-    header { text-align: left; }
-    .lede { margin-left: 0; }
-    .meta { justify-content: flex-start; }
-    .books { display: flex; flex-direction: column; gap: 28px; }
-    .book { max-width: none; flex: none; }
-    .book > a { flex-direction: row; align-items: flex-start; gap: 18px; perspective: 900px; }
-    .stand { flex: 0 0 34%; max-width: 150px; padding-bottom: 16px; }
-    .cover3d { transform: rotateY(16deg); }
-    .cap { margin-top: 0; text-align: left; max-width: none; min-width: 0; }
-    .title { font-size: 1.08rem; }
-    .thread { text-align: left; }
+    .book { flex: 0 1 calc((100% - 20px) / 2); }
+    .books { column-gap: 20px; row-gap: 32px; }
+    .title { font-size: 1rem; }
+    .sub { font-size: 0.88rem; }
   }
   @media (prefers-reduced-motion: reduce) { .cover3d, .stand::after { transition: none; } }
 </style>
@@ -151,8 +139,8 @@
 <header class="wrap">
   <p class="eyebrow">The AI &amp; Cloud Era series</p>
   <h1>Building modern software systems</h1>
-  <p class="lede">Five free books that follow one company, Encore, a concert-ticketing platform, from its first architectural decisions to keeping production running at four hundred engineers. Each book stands on its own; together they cover the whole craft.</p>
-  <p class="meta"><span><b>5</b> books</span><span><b>52</b> chapters</span><span>free to read online</span><span>by Oleksiy Pylypenko</span><span class="live" id="live" hidden></span></p>
+  <p class="lede">Five free books, one company: from the first architecture decision to keeping production running.</p>
+  <p class="meta"><span>Free to read online · by Oleksiy Pylypenko</span><span class="live" id="live" hidden></span></p>
 </header>
 
 <main class="wrap">
@@ -160,39 +148,28 @@
     <li class="book"><a href="https://oleksiyp.github.io/arch-book/">
       <span class="stand"><span class="cover3d" style="--spine:.0917"><img class="front" src="assets/books/architecture-front.webp" alt="" width="800" height="1200"><img class="spine" src="assets/books/architecture-spine.webp" alt="" width="73" height="1200"></span></span>
       <div class="cap"><span class="num">Book 1</span>
-        <h2 class="title">Software Architecture</h2><p class="sub">The road to platform architecture</p>
-        <p class="asks">How to shape a system: trade-offs, distributed systems, events, APIs, data, security and AI, converging on platform architecture.</p>
-        <p class="facts">15 chapters</p><span class="read">Read the book →</span></div></a></li>
+        <h2 class="title">Software Architecture</h2><p class="sub">The road to platform architecture</p></div></a></li>
     <li class="book"><a href="https://oleksiyp.github.io/buildproducts-book/">
       <span class="stand"><span class="cover3d" style="--spine:.125"><img class="front" src="assets/books/products-front.webp" alt="" width="800" height="1200"><img class="spine" src="assets/books/products-spine.webp" alt="" width="100" height="1200"></span></span>
       <div class="cap"><span class="num">Book 2</span>
-        <h2 class="title">Building Products</h2><p class="sub">Deciding what to build</p>
-        <p class="asks">What to build and why: strategy, discovery, experiments, pricing, design for people, design systems, mobile and APIs as products.</p>
-        <p class="facts">10 chapters</p><span class="read">Read the book →</span></div></a></li>
+        <h2 class="title">Building Products</h2><p class="sub">Deciding what to build</p></div></a></li>
     <li class="book"><a href="https://oleksiyp.github.io/buildsoftware-book/">
       <span class="stand"><span class="cover3d" style="--spine:.1333"><img class="front" src="assets/books/software-front.webp" alt="" width="800" height="1200"><img class="spine" src="assets/books/software-spine.webp" alt="" width="107" height="1200"></span></span>
       <div class="cap"><span class="num">Book 3</span>
-        <h2 class="title">Building Software at Scale</h2><p class="sub">The system that builds the system</p>
-        <p class="asks">How four hundred engineers build it: the codebase, testing, the development loop, AI assistance, platforms, teams and planning.</p>
-        <p class="facts">11 chapters</p><span class="read">Read the book →</span></div></a></li>
+        <h2 class="title">Building Software at Scale</h2><p class="sub">The system that builds the system</p></div></a></li>
     <li class="book"><a href="https://oleksiyp.github.io/resilienteng-book/">
       <span class="stand"><span class="cover3d" style="--spine:.125"><img class="front" src="assets/books/resilience-front.webp" alt="" width="800" height="1200"><img class="spine" src="assets/books/resilience-spine.webp" alt="" width="100" height="1200"></span></span>
       <div class="cap"><span class="num">Book 4</span>
-        <h2 class="title">Building Resilient Systems</h2><p class="sub">Production engineering</p>
-        <p class="asks">How to make it withstand production: SLOs, capacity, runtimes, shipping change, designing for failure, data, security and AI workloads.</p>
-        <p class="facts">9 chapters</p><span class="read">Read the book →</span></div></a></li>
+        <h2 class="title">Building Resilient Systems</h2><p class="sub">Production engineering</p></div></a></li>
     <li class="book"><a href="https://oleksiyp.github.io/prodsys-book/">
       <span class="stand"><span class="cover3d" style="--spine:.1167"><img class="front" src="assets/books/operations-front.webp" alt="" width="800" height="1200"><img class="spine" src="assets/books/operations-spine.webp" alt="" width="93" height="1200"></span></span>
       <div class="cap"><span class="num">Book 5</span>
-        <h2 class="title">Operating Production Systems</h2><p class="sub">Keeping systems running</p>
-        <p class="asks">What happens when it fails anyway: how complex systems fail, observability, incident response and learning from incidents.</p>
-        <p class="facts">7 chapters</p><span class="read">Read the book →</span></div></a></li>
+        <h2 class="title">Operating Production Systems</h2><p class="sub">Keeping systems running</p></div></a></li>
   </ol>
 
   <section class="thread" aria-labelledby="thread-title">
     <h2 id="thread-title">One company, five questions</h2>
     <p>Encore sells concert tickets. In the books it grows from a handful of founders to four hundred engineers, survives on-sales of a million fans, builds a resale service and has its worst Friday. Every practice in the series is shown working, or failing, at that one company.</p>
-    <p>Each chapter roots today's practice in the history that explains it, uses only practices with evidence behind them, and ends with a kata to try.</p>
   </section>
   <!-- Series digest: a sign-up for the series-wide weekly email goes here once it exists. -->
 </main>
@@ -215,7 +192,7 @@
         if (!data) return;
         var cutoff = Date.now() - 5 * 60 * 1000, n = 0;
         for (var k in data) if (data[k] > cutoff) n++;
-        if (n > 0) { el.textContent = n + (n === 1 ? ' reader' : ' readers') + ' in the books right now'; el.hidden = false; }
+        if (n > 0) { el.textContent = n + ' reading now'; el.hidden = false; }
       })
       .catch(function () {});
   })();
