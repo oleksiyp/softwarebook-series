@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The AI &amp; Cloud Era series</title>
+<meta name="description" content="Five free online books on building modern software systems: architecture, products, software at scale, resilient systems and operations. One company, Encore, runs through all of them.">
+<link rel="canonical" href="https://oleksiyp.github.io/softwarebook-series/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The AI &amp; Cloud Era series — Building modern software systems">
+<meta property="og:description" content="Five free online books, one company: from the first architecture decision to keeping production running.">
+<meta property="og:url" content="https://oleksiyp.github.io/softwarebook-series/">
+<meta property="og:image" content="https://oleksiyp.github.io/softwarebook-series/assets/og-banner.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The five books of the AI &amp; Cloud Era series standing side by side">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#f3f1ec" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1b1f3b" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/open-sans-700.woff2" as="font" type="font/woff2" crossorigin>
+<script>
+  // The books share this origin, so a theme chosen in any of them applies here too.
+  try { var t = localStorage.getItem('theme'); if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+</script>
+<style>
+  @font-face { font-family: "Open Sans"; font-weight: 400; font-display: swap; src: url("assets/fonts/open-sans-400.woff2") format("woff2"); }
+  @font-face { font-family: "Open Sans"; font-weight: 700; font-display: swap; src: url("assets/fonts/open-sans-700.woff2") format("woff2"); }
+
+  :root {
+    --bg: #f3f1ec; --ink: #1b1f3b; --muted: #5c6178; --accent: #d9482b; --accent-ink: #b23a20;
+    --glow-a: rgba(217, 72, 43, 0.10); --glow-b: rgba(0, 201, 255, 0.08);
+    --floor: rgba(27, 31, 59, 0.28); --rule: rgba(27, 31, 59, 0.12);
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1b1f3b; --ink: #eef1f6; --muted: #a9b2c3; --accent: #f0714f; --accent-ink: #f0714f;
+      --glow-a: rgba(217, 72, 43, 0.30); --glow-b: rgba(0, 201, 255, 0.18);
+      --floor: rgba(0, 0, 0, 0.55); --rule: rgba(255, 255, 255, 0.12);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1b1f3b; --ink: #eef1f6; --muted: #a9b2c3; --accent: #f0714f; --accent-ink: #f0714f;
+    --glow-a: rgba(217, 72, 43, 0.30); --glow-b: rgba(0, 201, 255, 0.18);
+    --floor: rgba(0, 0, 0, 0.55); --rule: rgba(255, 255, 255, 0.12);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; min-height: 100vh; display: flex; flex-direction: column;
+    font: 400 16px/1.55 "Open Sans", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(60% 50% at 22% 62%, var(--glow-a), transparent 70%),
+      radial-gradient(50% 45% at 82% 30%, var(--glow-b), transparent 70%),
+      var(--bg);
+    background-attachment: fixed;
+  }
+  a { color: inherit; }
+  .wrap {
+    width: 100%; max-width: 1560px; margin: 0 auto;
+    padding-left: max(24px, env(safe-area-inset-left, 0px));
+    padding-right: max(24px, env(safe-area-inset-right, 0px));
+  }
+
+  /* ---- heading ---- */
+  header { padding-block: clamp(36px, 7vh, 88px) clamp(20px, 4vh, 48px); text-align: center; }
+  .eyebrow { margin: 0 0 12px; font: 700 0.78rem/1.2 var(--mono); letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-ink); }
+  h1 { margin: 0; font-size: clamp(2rem, 4.6vw, 3.6rem); line-height: 1.08; font-weight: 700; letter-spacing: -0.015em; text-wrap: balance; }
+  .lede { max-width: 44rem; margin: 18px auto 0; font-size: clamp(1rem, 1.5vw, 1.18rem); color: var(--muted); text-wrap: pretty; }
+  .meta { margin: 18px 0 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 18px; font: 0.8rem/1.4 var(--mono); letter-spacing: 0.04em; color: var(--muted); }
+  .meta b { color: var(--ink); font-weight: 700; }
+  .live { display: inline-flex; align-items: center; gap: 7px; }
+  .live::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #2fb36b; box-shadow: 0 0 0 3px rgba(47, 179, 107, 0.2); }
+
+  /* ---- the books: standing in a row, no shelf, only the floor's shadow ---- */
+  .books {
+    list-style: none; margin: 0; padding: clamp(24px, 5vh, 56px) 0 0;
+    display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: clamp(16px, 2.6vw, 44px); align-items: start;
+    counter-reset: book;
+  }
+  .book { min-width: 0; }
+  .book > a { display: flex; flex-direction: column; align-items: center; gap: 0; text-decoration: none; color: inherit; perspective: 1000px; outline: none; }
+  .stand { position: relative; width: min(100%, 300px); padding-bottom: 26px; }
+  .stand::after {  /* the floor under the book */
+    content: ""; position: absolute; left: 4%; right: -6%; bottom: 8px; height: 22px;
+    background: radial-gradient(50% 50% at 50% 50%, var(--floor), transparent 72%);
+    transition: transform .4s ease, opacity .4s ease;
+  }
+  .cover3d {
+    position: relative; z-index: 1; display: block; width: 100%; aspect-ratio: 2 / 3;
+    transform-style: preserve-3d; transform-origin: 50% 100%;
+    transform: rotateY(30deg); transition: transform .45s cubic-bezier(.2,.7,.2,1);
+  }
+  .cover3d img { position: absolute; top: 0; height: 100%; display: block; backface-visibility: hidden; }
+  .cover3d .front { left: 0; width: 100%; border-radius: 1px 3px 3px 1px; box-shadow: 10px 16px 28px -14px rgba(0,0,0,.55); }
+  .cover3d .spine { left: 0; width: calc(100% * var(--spine)); transform-origin: left center; transform: rotateY(-90deg); filter: brightness(.78); }
+  .book > a:hover .cover3d, .book > a:focus-visible .cover3d { transform: rotateY(6deg) translateY(-10px); }
+  .book > a:hover .stand::after, .book > a:focus-visible .stand::after { transform: scaleX(.92); opacity: .75; }
+  .book > a:focus-visible .front { outline: 3px solid var(--accent); outline-offset: 4px; }
+
+  .cap { margin-top: 10px; text-align: center; max-width: 300px; }
+  .num { font: 700 0.72rem/1.3 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-ink); }
+  .title { margin: 6px 0 2px; font-size: clamp(1rem, 1.25vw, 1.2rem); line-height: 1.25; font-weight: 700; text-wrap: balance; }
+  .sub { margin: 0; font-size: 0.92rem; color: var(--muted); }
+  .asks { margin: 12px 0 0; font-size: 0.9rem; line-height: 1.5; color: var(--muted); text-wrap: pretty; }
+  .facts { margin: 10px 0 0; font: 0.72rem/1.4 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+  .read { display: inline-block; margin-top: 12px; font-weight: 700; font-size: 0.92rem; color: var(--accent-ink); }
+  .book > a:hover .read { text-decoration: underline; text-underline-offset: 3px; }
+
+  /* ---- the thread through the books ---- */
+  .thread { margin: clamp(48px, 9vh, 96px) auto 0; max-width: 46rem; text-align: center; }
+  .thread h2 { margin: 0 0 10px; font-size: 1.35rem; text-wrap: balance; }
+  .thread p { margin: 0 0 12px; color: var(--muted); text-wrap: pretty; }
+
+  footer { margin-top: auto; padding-block: 56px 32px; }
+  .foot { border-top: 1px solid var(--rule); padding-top: 18px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; font-size: 0.85rem; color: var(--muted); }
+  .foot a { text-decoration-color: var(--rule); text-underline-offset: 3px; }
+  .foot a:hover { color: var(--ink); }
+
+  /* Tablets: three over two, centred; the books keep standing */
+  @media (max-width: 1080px) {
+    .books { display: flex; flex-wrap: wrap; justify-content: center; row-gap: 40px; }
+    .book { flex: 0 1 calc((100% - 2 * clamp(16px, 2.6vw, 44px)) / 3); max-width: 260px; }
+  }
+  /* Phones: a list, each cover beside what the book is about */
+  @media (max-width: 620px) {
+    .wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+    header { text-align: left; }
+    .lede { margin-left: 0; }
+    .meta { justify-content: flex-start; }
+    .books { display: flex; flex-direction: column; gap: 28px; }
+    .book { max-width: none; flex: none; }
+    .book > a { flex-direction: row; align-items: flex-start; gap: 18px; perspective: 900px; }
+    .stand { flex: 0 0 34%; max-width: 150px; padding-bottom: 16px; }
+    .cover3d { transform: rotateY(16deg); }
+    .cap { margin-top: 0; text-align: left; max-width: none; min-width: 0; }
+    .title { font-size: 1.08rem; }
+    .thread { text-align: left; }
+  }
+  @media (prefers-reduced-motion: reduce) { .cover3d, .stand::after { transition: none; } }
+</style>
+</head>
+<body>
+<header class="wrap">
+  <p class="eyebrow">The AI &amp; Cloud Era series</p>
+  <h1>Building modern software systems</h1>
+  <p class="lede">Five free books that follow one company, Encore, a concert-ticketing platform, from its first architectural decisions to keeping production running at four hundred engineers. Each book stands on its own; together they cover the whole craft.</p>
+  <p class="meta"><span><b>5</b> books</span><span><b>52</b> chapters</span><span>free to read online</span><span>by Oleksiy Pylypenko</span><span class="live" id="live" hidden></span></p>
+</header>
+
+<main class="wrap">
+  <ol class="books">
+    <li class="book"><a href="https://oleksiyp.github.io/arch-book/">
+      <span class="stand"><span class="cover3d" style="--spine:.0917"><img class="front" src="assets/books/architecture-front.webp" alt="" width="800" height="1200"><img class="spine" src="assets/books/architecture-spine.webp" alt="" width="73" height="1200"></span></span>
+      <div class="cap"><span class="num">Book 1</span>
+        <h2 class="title">Software Architecture</h2><p class="sub">The road to platform architecture</p>
+        <p class="asks">How to shape a system: trade-offs, distributed systems, events, APIs, data, security and AI, converging on platform architecture.</p>
+        <p class="facts">15 chapters</p><span class="read">Read the book →</span></div></a></li>
+    <li class="book"><a href="https://oleksiyp.github.io/buildproducts-book/">
+      <span class="stand"><span class="cover3d" style="--spine:.125"><img class="front" src="assets/books/products-front.webp" alt="" width="800" height="1200"><img class="spine" src="assets/books/products-spine.webp" alt="" width="100" height="1200"></span></span>
+      <div class="cap"><span class="num">Book 2</span>
+        <h2 class="title">Building Products</h2><p class="sub">Deciding what to build</p>
+        <p class="asks">What to build and why: strategy, discovery, experiments, pricing, design for people, design systems, mobile and APIs as products.</p>
+        <p class="facts">10 chapters</p><span class="read">Read the book →</span></div></a></li>
+    <li class="book"><a href="https://oleksiyp.github.io/buildsoftware-book/">
+      <span class="stand"><span class="cover3d" style="--spine:.1333"><img class="front" src="assets/books/software-front.webp" alt="" width="800" height="1200"><img class="spine" src="assets/books/software-spine.webp" alt="" width="107" height="1200"></span></span>
+      <div class="cap"><span class="num">Book 3</span>
+        <h2 class="title">Building Software at Scale</h2><p class="sub">The system that builds the system</p>
+        <p class="asks">How four hundred engineers build it: the codebase, testing, the development loop, AI assistance, platforms, teams and planning.</p>
+        <p class="facts">11 chapters</p><span class="read">Read the book →</span></div></a></li>
+    <li class="book"><a href="https://oleksiyp.github.io/resilienteng-book/">
+      <span class="stand"><span class="cover3d" style="--spine:.125"><img class="front" src="assets/books/resilience-front.webp" alt="" width="800" height="1200"><img class="spine" src="assets/books/resilience-spine.webp" alt="" width="100" height="1200"></span></span>
+      <div class="cap"><span class="num">Book 4</span>
+        <h2 class="title">Building Resilient Systems</h2><p class="sub">Production engineering</p>
+        <p class="asks">How to make it withstand production: SLOs, capacity, runtimes, shipping change, designing for failure, data, security and AI workloads.</p>
+        <p class="facts">9 chapters</p><span class="read">Read the book →</span></div></a></li>
+    <li class="book"><a href="https://oleksiyp.github.io/prodsys-book/">
+      <span class="stand"><span class="cover3d" style="--spine:.1167"><img class="front" src="assets/books/operations-front.webp" alt="" width="800" height="1200"><img class="spine" src="assets/books/operations-spine.webp" alt="" width="93" height="1200"></span></span>
+      <div class="cap"><span class="num">Book 5</span>
+        <h2 class="title">Operating Production Systems</h2><p class="sub">Keeping systems running</p>
+        <p class="asks">What happens when it fails anyway: how complex systems fail, observability, incident response and learning from incidents.</p>
+        <p class="facts">7 chapters</p><span class="read">Read the book →</span></div></a></li>
+  </ol>
+
+  <section class="thread" aria-labelledby="thread-title">
+    <h2 id="thread-title">One company, five questions</h2>
+    <p>Encore sells concert tickets. In the books it grows from a handful of founders to four hundred engineers, survives on-sales of a million fans, builds a resale service and has its worst Friday. Every practice in the series is shown working, or failing, at that one company.</p>
+    <p>Each chapter roots today's practice in the history that explains it, uses only practices with evidence behind them, and ends with a kata to try.</p>
+  </section>
+  <!-- Series digest: a sign-up for the series-wide weekly email goes here once it exists. -->
+</main>
+
+<footer class="wrap">
+  <div class="foot">
+    <span>© 2026 Oleksiy Pylypenko · the books are licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></span>
+    <span><a href="https://github.com/oleksiyp/softwarebook-series">Source on GitHub</a> · This page sets no cookies and tracks nothing.</span>
+  </div>
+</footer>
+
+<script>
+  // Readers online across the series: the books keep one anonymous heartbeat per open page in a
+  // shared Firebase list; this page only reads it and adds nothing of its own.
+  (function () {
+    var el = document.getElementById('live');
+    fetch('https://arch-book-b857d-default-rtdb.europe-west1.firebasedatabase.app/presence.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        if (!data) return;
+        var cutoff = Date.now() - 5 * 60 * 1000, n = 0;
+        for (var k in data) if (data[k] > cutoff) n++;
+        if (n > 0) { el.textContent = n + (n === 1 ? ' reader' : ' readers') + ' in the books right now'; el.hidden = false; }
+      })
+      .catch(function () {});
+  })();
+</script>
+</body>
+</html>
